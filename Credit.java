@@ -1,6 +1,6 @@
 import java.util.*;
 public abstract class Credit {
-    private int id;
+    private String id;
     private double amount;
     private User paidBy;
     private List<Split> splits;    
@@ -11,11 +11,11 @@ public abstract class Credit {
         this.splits = splits;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
