@@ -1,22 +1,22 @@
 import java.util.*;
 public class Manager {
     List<Credit> credits;
-    Map<String, User> userMap;
+    Map<String, User> userRecord;
     Map<String, Map<String, Double> > balanceSheet;
 
     public Manager(){
         credits = new ArrayList<Credit>();
-        userMap = new HashMap<String, User>();
+        userRecord = new HashMap<String, User>();
         balanceSheet = new HashMap<String, Map<String, Double> >();
     }
 
     public void addUser(User user) {
-        userMap.put(user.getId(), user);
+        userRecord.put(user.getId(), user);
         balanceSheet.put(user.getId(), new HashMap<String, Double>());
     }
 
     public void addCredit(CreditType creditType, double amount, String paidBy, List<Split> splits) {
-        Credit credit = CreditController.createCredit(creditType, amount, userMap.get(paidBy), splits);
+        Credit credit = CreditController.createCredit(creditType, amount, userRecord.get(paidBy), splits);
         credits.add(credit);
         for (Split split : credit.getSplits()) {
             String paidTo = split.getUser().getId();
@@ -65,8 +65,8 @@ public class Manager {
     }
 
     private void printBalance(String user1, String user2, double amount) {
-        String userName1 = userMap.get(user1).getName();
-        String userName2 = userMap.get(user2).getName();
+        String userName1 = userRecord.get(user1).getName();
+        String userName2 = userRecord.get(user2).getName();
         if (amount < 0) {
             System.out.println(userName1 + " owes " + userName2 + ": " + Math.abs(amount));
         } else if (amount > 0) {
