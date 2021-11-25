@@ -2,17 +2,17 @@ import java.util.*;
 public class Manager {
     List<Credit> credits;
     Map<String, User> userRecord;
-    Map<String, Map<String, Double> > balanceSheet;
+    Map<String, Map<String, Double> > creditRecord;
 
     public Manager(){
         credits = new ArrayList<Credit>();
         userRecord = new HashMap<String, User>();
-        balanceSheet = new HashMap<String, Map<String, Double> >();
+        creditRecord = new HashMap<String, Map<String, Double> >();
     }
 
     public void addUser(User user) {
         userRecord.put(user.getId(), user);
-        balanceSheet.put(user.getId(), new HashMap<String, Double>());
+        creditRecord.put(user.getId(), new HashMap<String, Double>());
     }
 
     public void addCredit(CreditType creditType, double amount, String paidBy, List<Split> splits) {
@@ -20,13 +20,13 @@ public class Manager {
         credits.add(credit);
         for (Split split : credit.getSplits()) {
             String paidTo = split.getUser().getId();
-            Map<String, Double> balances = balanceSheet.get(paidBy);
+            Map<String, Double> balances = creditRecord.get(paidBy);
             if (!balances.containsKey(paidTo)) {
                 balances.put(paidTo, 0.0);
             }
             balances.put(paidTo, balances.get(paidTo) + split.getAmount());
 
-            balances = balanceSheet.get(paidTo);
+            balances = creditRecord.get(paidTo);
             if (!balances.containsKey(paidBy)) {
                 balances.put(paidBy, 0.0);
             }
@@ -36,7 +36,7 @@ public class Manager {
 
     public void showBalance(String userId) {
         boolean emptyBalance = true;
-        for (Map.Entry<String, Double> userBalance : balanceSheet.get(userId).entrySet()) {
+        for (Map.Entry<String, Double> userBalance : creditRecord.get(userId).entrySet()) {
             if (userBalance.getValue() != 0) {
                 emptyBalance = false;
                 printBalance(userId, userBalance.getKey(), userBalance.getValue());
@@ -50,7 +50,7 @@ public class Manager {
 
     public void showBalances() {
         boolean emptyBalance = true;
-        for (Map.Entry<String, Map<String, Double>> allBalances : balanceSheet.entrySet()) {
+        for (Map.Entry<String, Map<String, Double>> allBalances : creditRecord.entrySet()) {
             for (Map.Entry<String, Double> userBalance : allBalances.getValue().entrySet()) {
                 if (userBalance.getValue() > 0) {
                     emptyBalance = false;
