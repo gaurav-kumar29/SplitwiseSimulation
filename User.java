@@ -1,9 +1,8 @@
 public class User{
     private String id;
-    private String name;
-    private long phoneNumber;
+    private String name,phoneNumber;
     
-    public User(String id, String name, long phoneNumber){
+    public User(String id, String name, String phoneNumber){
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -25,11 +24,11 @@ public class User{
         this.name = name;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }    
 }
