@@ -34,43 +34,57 @@ public class Manager {
         }
     }
 
-    public void showBalance(String userId) {
+    public List<String> showBalance(String userId) {
         boolean emptyBalance = true;
+        List<String> out = new ArrayList<>();
         for (Map.Entry<String, Double> userBalance : creditRecord.get(userId).entrySet()) {
             if (userBalance.getValue() != 0) {
                 emptyBalance = false;
-                printBalance(userId, userBalance.getKey(), userBalance.getValue());
+               out.add(printBalance(userId, userBalance.getKey(), userBalance.getValue()));
             }
+
         }
 
         if (emptyBalance) {
             System.out.println("No balances");
+            out.add("No balances");
         }
+        return out;
     }
 
-    public void showBalances() {
+    public List<String> showBalances() {
+        List<String> out = new ArrayList<>();
+        int i=0;
         boolean emptyBalance = true;
         for (Map.Entry<String, Map<String, Double>> allBalances : creditRecord.entrySet()) {
             for (Map.Entry<String, Double> userBalance : allBalances.getValue().entrySet()) {
                 if (userBalance.getValue() > 0) {
                     emptyBalance = false;
-                    printBalance(allBalances.getKey(), userBalance.getKey(), userBalance.getValue());
+                     out.add(printBalance(allBalances.getKey(), userBalance.getKey(), userBalance.getValue()));
+                     i++;
                 }
             }
         }
 
         if (emptyBalance) {
             System.out.println("No balances");
+            out.add("No balances");
         }
+        return out;
     }
 
-    private void printBalance(String user1, String user2, double amount) {
+    private String printBalance(String user1, String user2, double amount) {
         String userName1 = userRecord.get(user1).getName();
         String userName2 = userRecord.get(user2).getName();
         if (amount < 0) {
             System.out.println(userName1 + " owes " + userName2 + ": " + Math.abs(amount));
+            return userName1 + " owes " + userName2 + ": " + Math.abs(amount);
         } else if (amount > 0) {
-            System.out.println(userName2 + " owes " + userName2 + ": " + Math.abs(amount));
+            System.out.println(userName2 + " owes " + userName1 + ": " + Math.abs(amount));
+            return userName2 + " owes " + userName1 + ": " + Math.abs(amount);
+        }
+        else{
+            return "";
         }
     }
 }
